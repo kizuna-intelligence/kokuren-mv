@@ -1,0 +1,16 @@
+kokuren-mv
+
+BiimMotionWebUI
+Copyright 2026 kokuren333
+
+This product is based on BiimMotionWebUI by kokuren333
+(https://github.com/kokuren333/BiimMotionWebUI), licensed under the
+Apache License, Version 2.0.
+
+It repackages the original software as Claude Code skills. The web UI and
+ZIP export were removed, and the job generator was changed to write job
+folders directly. See "変更点" in README.md for the list of modified files.
+
+Bundled fonts (Noto Sans JP, M PLUS Rounded 1c) are licensed under the
+SIL Open Font License 1.1; see
+skills/biim-motion/assets/job-template/assets/fonts/.
