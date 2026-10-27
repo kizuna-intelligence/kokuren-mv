@@ -1,7 +1,7 @@
 {
   "name": "kokuren-mv",
-  "description": "kokuren333さんのBiimMotionWebUIをベースにした、Remotionで解説動画・MVを制作するClaude Codeスキル",
-  "version": "0.1.0",
+  "description": "kokuren333さんのBiimMotionWebUIをベースにした、Remotionで解説動画・MVを制作し、MiniMax Music 3で曲も作るClaude Codeスキル",
+  "version": "0.2.0",
   "author": { "name": "kizuna-intelligence" },
   "homepage": "https://github.com/kizuna-intelligence/kokuren-mv",
   "repository": "https://github.com/kizuna-intelligence/kokuren-mv",

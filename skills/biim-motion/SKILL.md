@@ -18,7 +18,7 @@ kokuren333さんの[BiimMotionWebUI](https://github.com/kokuren333/BiimMotionWeb
 ## 1. モードと設定を決める
 
 - **解説動画**（`videoMode: "explanation"`、既定）か **MV**（`videoMode: "mv"`）かを依頼から判断する。
-- 必須は `title`（動画タイトル）・`description`（何を説明する動画か / MVの目的）・`audience`（対象視聴者）。MVではさらに完成音源（`assets.music`）が必須。
+- 必須は `title`（動画タイトル）・`description`（何を説明する動画か / MVの目的）・`audience`（対象視聴者）。MVではさらに完成音源（`assets.music`）が必須。曲がまだ無ければ、先に`song-generation`スキルで作る。
 - 依頼から読み取れない必須項目だけをユーザーに聞く。その他は既定値のままでよい。既定値と各項目の意味は [references/config.md](references/config.md)。
 - 既定値を確認するとき:
 
@@ -61,6 +61,11 @@ node --experimental-strip-types $SKILL/scripts/new-job.ts job-config.json <出�
 
 - 解説動画: 調査 → `plan/script.md` → `plan/storyboard.md` → `scenes/`の実装と`project.json`の`scenes`の記入 → `npm run voice` → 実測尺に合わせて同期 → `npm run sound` → 音量調整。
 - MV: `plan/music-analysis.md`（展開・ビート・フレーズ）→ `plan/storyboard.md` → `scenes/`の実装。音源は最初から最後まで一度だけ再生し、音声合成・追加BGM/SEは行わない。
+- MVの曲の解析には`$SKILL/scripts/analyze_music.py`を使う（要`librosa`・`faster-whisper`、CPUで動く）。拍・小節の頭・音量・歌詞の各行の時刻・セクションを`scenes/mv-data.json`に書き出すので、シーンはこのJSONを読んで拍と歌詞に同期させる。歌詞はsong-generationの形式（`[verse]`などのタグ付き）で渡すとセクション名も付く。
+  ```sh
+  python $SKILL/scripts/analyze_music.py assets/music.wav --lyrics plan/lyrics.txt --out scenes/mv-data.json
+  ```
+  Whisperが聞き取れなかった行は前後から推定して`estimated: true`が付く。推定の行が多いときは、プレビューで歌詞の出るタイミングを確かめる。
 - 共通の仕上げ（`runtime/`で実行）: `npm run validate` → `npm run preview` → `npm run still -- --frame=N`でフレームを目視 → 修正 → `reports/visual-qa.md` → `npm run build` → `npm run validate -- --final` → `reports/delivery.md`。
 - 初回はジョブのルートで`npm install`。`npm install`・`preview`・`build`は時間がかかるので、バックグラウンドで実行して完了通知を待つ。
 - `validate`が通るのは構造の検査だけ。previewを映像と音で確認していないうちは完成と報告しない。
